@@ -1,4 +1,5 @@
 using Field;
+using Runtime;
 using UnityEngine;
 using Grid = Field.Grid;
 
@@ -8,11 +9,14 @@ namespace Enemy
     {
         private float m_Speed;
         private Transform m_Transform;
+        private EnemyData m_EnemyData;
 
-        public GridMovementAgent(float speed, Transform transform, Grid grid)
+        public GridMovementAgent(float speed, Transform transform, Grid grid, EnemyData enemyData)
         {
             m_Speed = speed;
             m_Transform = transform;
+            m_EnemyData = enemyData;
+            m_UnderNode = Game.Player.Grid.GetNodeAtPoint(m_Transform.position);
 
             SetTargetNode(grid.GetStartNode());
         }
@@ -20,15 +24,31 @@ namespace Enemy
         private const float TOLERANCE = 0.1f;
 
         private Node m_TargetNode;
+        private Node m_UnderNode = null;
 
         public void TickMovement()
         {
+
+            //mine code
+            if (m_EnemyData.IsDead)
+            {
+                return;
+            }
+
             if (m_TargetNode == null)
             {
                 return;
             }
 
             Vector3 target = m_TargetNode.Position;
+
+            Node currentUnderNode = Game.Player.Grid.GetNodeAtPoint(m_Transform.position);
+            if (m_UnderNode != currentUnderNode)
+            {
+                m_UnderNode?.EnemiesOnCell.Remove(m_EnemyData);
+                m_UnderNode = currentUnderNode;
+                m_UnderNode?.EnemiesOnCell.Add(m_EnemyData);
+            }
 
             float distance = (target - m_Transform.position).magnitude;
             if (distance < TOLERANCE)

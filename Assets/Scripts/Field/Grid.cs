@@ -11,6 +11,9 @@ namespace Field
         private int m_Width;
         private int m_Height;
 
+        private Vector3 m_Offset;
+        private float m_NodeSize;
+
         private FlowFieldPathfinding m_Pathfinding;
 
         private Vector2Int m_StartCoordinate;
@@ -25,6 +28,9 @@ namespace Field
         {
             m_Width = width;
             m_Height = height;
+
+            m_Offset = offset;
+            m_NodeSize = nodeSize;
 
             m_StartCoordinate = start;
             m_TargetCoordinate = target;
@@ -43,6 +49,46 @@ namespace Field
             m_Pathfinding = new FlowFieldPathfinding(this, target, start);
 
             m_Pathfinding.UpdateField();
+        }
+
+        public Node GetNodeAtPoint(Vector3 point)
+        {
+            if (point.x < m_Offset.x || point.x > m_Offset.x + m_Width * m_NodeSize)
+            {
+                return null;
+            }
+            if (point.z < m_Offset.z || point.z > m_Offset.z + m_Height * m_NodeSize)
+            {
+                return null;
+            }
+            int x = (int)((point.x - m_Offset.x) / m_NodeSize) + 1;
+            int y = (int)((point.z - m_Offset.z) / m_NodeSize) + 1;
+            return GetNode(new Vector2Int(x, y));
+        }
+
+        public List<Node> GetNodeInCircle(Vector3 point, float radius)
+        {
+            List<Node> answerList = new List<Node>();
+            for (int i = 0; i < m_Width; ++i)
+            {
+                for (int j = 0; j < m_Height; ++j)
+                {
+                    if ((m_Nodes[i, j].Position - point).magnitude < radius + m_NodeSize)
+                    {
+                        answerList.Add(m_Nodes[i, j]);
+                    }
+                }
+            }
+            return answerList;
+        }
+
+        public bool CanOccupy(Node nodeToOccupy)
+        {
+            if (nodeToOccupy.IsOccupied)
+            {
+                return false;
+            }
+            return m_Pathfinding.CanOccupy(nodeToOccupy.PositionOnGrid);
         }
 
         public void TryOccupyNode(Vector2Int coordinate, bool occupy)

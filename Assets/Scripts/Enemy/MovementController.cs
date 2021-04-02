@@ -1,4 +1,5 @@
 ﻿using Runtime;
+using System.Collections.Generic;
 
 namespace Enemy
 {
@@ -14,10 +15,25 @@ namespace Enemy
 
         public void Tick()
         {
+            List<EnemyData> enemyToDelete = new List<EnemyData>();
+
             foreach (EnemyData data in Game.Player.EnemyDatas)
             {
+                //mine code
+                if (data.IsDead)
+                {
+                    //enemyToDelete.Add(data);
+                    continue;
+                }
+
                 data.View.MovementAgent.TickMovement();
             }
+
+            //mine code
+            //foreach (EnemyData enemyData in enemyToDelete)
+            //{
+            //    Game.Player.EnemyDied(enemyData);
+            //}
         }
     }
 }

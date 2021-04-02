@@ -1,3 +1,4 @@
+using Enemy;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace Field
         public bool                   IsOccupied;
         public float                  PathWeight;
         public OccupationAvailability OccupationAvailability;
+        public List<EnemyData>        EnemiesOnCell = new List<EnemyData>();
 
         public Node(Vector3 position, Vector2Int posOnGrid)
         {

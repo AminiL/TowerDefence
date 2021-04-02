@@ -18,16 +18,23 @@ namespace Enemy
 
         public void CreateMovementAgent(Grid grid)
         {
-            if (m_Data.Asset.isFlyingEnemy)
+            if (m_Data.IsFlying)
             {
                 Vector3 finalPos = grid.GetTargetNode().Position;
                 finalPos.y = transform.position.y;
-                m_MovementAgent = new FlyingMovementAgent(5f, transform, finalPos);
+                m_MovementAgent = new FlyingMovementAgent(3f, transform, finalPos, m_Data);
             }
             else
             {
-                m_MovementAgent = new GridMovementAgent(5f, transform, grid);
+                m_MovementAgent = new GridMovementAgent(3f, transform, grid, m_Data);
             }
+        }
+
+
+        //mine code
+        public void Die()
+        {
+            Destroy(gameObject);
         }
     }
 }

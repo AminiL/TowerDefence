@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbfb11334f7549149ee7f77da0e93e55, type: 3}
+  m_Name: Market
+  m_EditorClassIdentifier: 
+  TurretAssets:
+  - {fileID: 11400000, guid: 0b5f07f5bb729734bbeff20982eda476, type: 2}
+  - {fileID: 11400000, guid: 90c78667d6c17f64a8d74518586c732e, type: 2}
+  - {fileID: 11400000, guid: 8c1bb707e2cfd7944b58469ac9d89ab8, type: 2}
+  - {fileID: 11400000, guid: bf12bdee6dcd517429a985f633e2ffd9, type: 2}

@@ -1,4 +1,5 @@
 ﻿using Field;
+using Runtime;
 using UnityEngine;
 using Grid = Field.Grid;
 
@@ -11,13 +12,17 @@ namespace Enemy
         private Vector3 m_TargetPos;
         private float m_Speed;
         private bool m_IsFinished = false;
+        private Node m_UnderNode = null;
+        private EnemyData m_EnemyData;
 
-        public FlyingMovementAgent(float speed, Transform transform, Vector3 targetPos)
+        public FlyingMovementAgent(float speed, Transform transform, Vector3 targetPos, EnemyData enemyData)
         {
             m_StartY = transform.position.y;
             m_TargetPos = targetPos;
             m_Transform = transform;
             m_Speed = speed;
+            m_UnderNode = Game.Player.Grid.GetNodeAtPoint(m_Transform.position);
+            m_EnemyData = enemyData;
         }
 
         private const float TOLERANCE = 0.1f;
@@ -27,6 +32,14 @@ namespace Enemy
             if (m_IsFinished)
             {
                 return;
+            }
+
+            Node currentUnderNode = Game.Player.Grid.GetNodeAtPoint(m_Transform.position);
+            if (m_UnderNode != currentUnderNode)
+            {
+                m_UnderNode?.EnemiesOnCell.Remove(m_EnemyData);
+                m_UnderNode = currentUnderNode;
+                m_UnderNode?.EnemiesOnCell.Add(m_EnemyData);
             }
 
             float distance = (m_TargetPos - m_Transform.position).magnitude;
