@@ -12,12 +12,9 @@ namespace Turret.Weapon.Projectile.Rocket
 {
     class RocketProjectile : MonoBehaviour, IProjectile
     {
-        [SerializeField]
-        private float m_Speed;
-        [SerializeField]
-        private float m_Damage;
-        [SerializeField]
-        private float m_DestructionRadius;
+        private float m_Speed;//6
+        private float m_Damage;//15
+        private float m_DestructionRadius;//3
 
         private bool m_DidHit = false;
         private EnemyData m_ChasingEnemy = null;
@@ -40,6 +37,13 @@ namespace Turret.Weapon.Projectile.Rocket
         private void SetDirection()
         {
             m_Direction = (m_ChasingEnemy.View.transform.position - transform.position).normalized;
+        }
+
+        public void Init(float speed, float damage, float destructionRadius)
+        {
+            m_Speed = speed;
+            m_Damage = damage;
+            m_DestructionRadius = destructionRadius;
         }
 
         public void SetChasingEnemy(EnemyData enemyData)
@@ -74,11 +78,6 @@ namespace Turret.Weapon.Projectile.Rocket
             {
                 foreach (EnemyData enemyData in node.EnemiesOnCell)
                 {
-                    //mine code
-                    if (enemyData.IsDead)
-                    {
-                        continue;
-                    }
                     if ((enemyData.View.transform.position - transform.position).sqrMagnitude < m_DestructionRadius * m_DestructionRadius)
                     {
                         enemyData.GetDamage(m_Damage);

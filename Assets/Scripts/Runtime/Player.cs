@@ -14,6 +14,9 @@ namespace Runtime
         private List<EnemyData> m_EnemyDatas = new List<EnemyData>();
         public IReadOnlyList<EnemyData> EnemyDatas => m_EnemyDatas;
 
+        private List<EnemyData> m_DiedEnemyDatas = new List<EnemyData>();
+        public IReadOnlyList<EnemyData> DiedEnemyDatas => m_DiedEnemyDatas;
+
         private List<TurretData> m_TurretDatas = new List<TurretData>();
         public IReadOnlyList<TurretData> TurretDatas => m_TurretDatas;
 
@@ -35,15 +38,23 @@ namespace Runtime
             m_EnemyDatas.Add(data);
         }
 
-        //mine code
         public void EnemyDied(EnemyData data)
         {
-            m_EnemyDatas.Remove(data);
+            m_DiedEnemyDatas.Add(data);
         }
 
         public void TurretSpawned(TurretData data)
         {
             m_TurretDatas.Add(data);
+        }
+
+        public void ResetDeadEnemy()
+        {
+            foreach (EnemyData dead in m_DiedEnemyDatas)
+            {
+                m_EnemyDatas.Remove(dead);
+            }
+            m_DiedEnemyDatas.Clear();
         }
     }
 }

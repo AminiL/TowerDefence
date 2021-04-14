@@ -1,5 +1,7 @@
+using Enemy;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Field
@@ -61,8 +63,8 @@ namespace Field
             {
                 return null;
             }
-            int x = (int)((point.x - m_Offset.x) / m_NodeSize) + 1;
-            int y = (int)((point.z - m_Offset.z) / m_NodeSize) + 1;
+            int x = (int)((point.x - m_Offset.x) / m_NodeSize);
+            int y = (int)((point.z - m_Offset.z) / m_NodeSize);
             return GetNode(new Vector2Int(x, y));
         }
 
@@ -166,6 +168,20 @@ namespace Field
         public void UpdatePathfinding()
         {
             m_Pathfinding.UpdateField();
+        }
+
+        public void ClearDeadEnemies(IReadOnlyList<EnemyData> deadEnemies)
+        {
+            for (int i = 0; i < m_Width; ++i)
+            {
+                for (int j = 0; j < m_Height; ++j)
+                {
+                    foreach (EnemyData data in deadEnemies)
+                    {
+                        m_Nodes[i, j].EnemiesOnCell.Remove(data);
+                    }
+                }
+            }
         }
     }
 }

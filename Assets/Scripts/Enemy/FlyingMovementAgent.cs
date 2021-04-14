@@ -15,12 +15,12 @@ namespace Enemy
         private Node m_UnderNode = null;
         private EnemyData m_EnemyData;
 
-        public FlyingMovementAgent(float speed, Transform transform, Vector3 targetPos, EnemyData enemyData)
+        public FlyingMovementAgent(Transform transform, Vector3 targetPos, EnemyData enemyData)
         {
             m_StartY = transform.position.y;
             m_TargetPos = targetPos;
             m_Transform = transform;
-            m_Speed = speed;
+            m_Speed = enemyData.Speed;
             m_UnderNode = Game.Player.Grid.GetNodeAtPoint(m_Transform.position);
             m_EnemyData = enemyData;
         }

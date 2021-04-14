@@ -8,7 +8,7 @@ namespace Turret.Weapon
 {
     public static class EnemySearch
     {
-        public static EnemyData GetClosestEnemy(Vector3 center,  List<Node> accesibleNodes)
+        public static EnemyData GetClosestEnemy(Vector3 center, List<Node> accesibleNodes, float maxSqrDistance)
         {
             float minSqrDistance = float.MaxValue;
             EnemyData closestEnemy = null;
@@ -24,6 +24,10 @@ namespace Turret.Weapon
                     }
 
                     float sqrDistance = (enemyData.View.transform.position - center).sqrMagnitude;
+                    if (sqrDistance > maxSqrDistance)
+                    {
+                        continue;
+                    }
 
                     if (sqrDistance < minSqrDistance)
                     {
@@ -31,9 +35,6 @@ namespace Turret.Weapon
                         closestEnemy = enemyData;
                     }
                 }
-
-                //mine code
-                //node.EnemiesOnCell.RemoveAll(enemyData => enemyData.IsDead);
             }
 
 

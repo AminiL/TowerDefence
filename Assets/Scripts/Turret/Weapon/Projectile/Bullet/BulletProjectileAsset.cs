@@ -14,9 +14,16 @@ namespace Turret.Weapon.Projectile.Bullet
         [SerializeField]
         private BulletProjectile m_BulletProjectile;
 
+        [SerializeField]
+        private float m_Speed;//10
+        [SerializeField]
+        private float m_Damage;//5
+
         public override IProjectile CreateProjectile(Vector3 origin, Vector3 originForward, EnemyData enemyData)
         {
-            return Instantiate(m_BulletProjectile, origin, Quaternion.LookRotation(originForward, Vector3.up));
+            BulletProjectile created = Instantiate(m_BulletProjectile, origin, Quaternion.LookRotation(originForward, Vector3.up));
+            created.Init(m_Speed, m_Damage);
+            return created;
         }
     }
 }

@@ -10,10 +10,8 @@ namespace Turret.Weapon.Projectile.Bullet
 {
     public class BulletProjectile : MonoBehaviour, IProjectile
     {
-        [SerializeField]
-        private float m_Speed;
-        [SerializeField]
-        private float m_Damage;
+        private float m_Speed;//10
+        private float m_Damage;//5
 
         private bool m_DidHit = false;
         private EnemyData m_HitEnemy = null;
@@ -29,6 +27,12 @@ namespace Turret.Weapon.Projectile.Bullet
                     m_HitEnemy = enemyView.Data;
                 }
             }
+        }
+
+        public void Init(float speed, float damage)
+        {
+            m_Speed = speed;
+            m_Damage = damage;
         }
 
         public bool DidHit()

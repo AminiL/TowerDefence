@@ -1,4 +1,5 @@
 ﻿using Enemy;
+using Field;
 using JetBrains.Annotations;
 using Runtime;
 using System;
@@ -20,6 +21,8 @@ namespace Turret.Weapon.Lazer
         [CanBeNull]
         private EnemyData m_ClosestEnemyData = null;
 
+        private List<Node> m_NodesInCircle;
+
         public TurretLazerWeapon(TurretView view, TurretLazerWeaponAsset asset)
         {
             m_View = view;
@@ -27,6 +30,7 @@ namespace Turret.Weapon.Lazer
             m_MaxDistance = asset.MaxDistance;
             m_LineRenderer = UnityEngine.Object.Instantiate(asset.LineRendererPrefab, view.ProjectileOrigin);
             m_LineRenderer.gameObject.SetActive(false);
+            m_NodesInCircle = Game.Player.Grid.GetNodeInCircle(m_View.transform.position, m_MaxDistance);
         }
 
         public void TickShoot()
@@ -59,13 +63,12 @@ namespace Turret.Weapon.Lazer
         private bool CheckClosest()
         {
             return m_ClosestEnemyData != null && 
-                !m_ClosestEnemyData.IsDead &&
                 (m_View.transform.position - m_ClosestEnemyData.View.transform.position).sqrMagnitude < m_MaxDistance * m_MaxDistance;
         }
 
         private bool SetClosest()
         {
-            m_ClosestEnemyData = EnemySearch.GetClosestEnemy(m_View.transform.position, Game.Player.Grid.GetNodeInCircle(m_View.transform.position, m_MaxDistance));
+            m_ClosestEnemyData = EnemySearch.GetClosestEnemy(m_View.transform.position, m_NodesInCircle, m_MaxDistance * m_MaxDistance);
             return CheckClosest();
         }
     }

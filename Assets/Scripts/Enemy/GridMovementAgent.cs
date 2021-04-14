@@ -11,9 +11,9 @@ namespace Enemy
         private Transform m_Transform;
         private EnemyData m_EnemyData;
 
-        public GridMovementAgent(float speed, Transform transform, Grid grid, EnemyData enemyData)
+        public GridMovementAgent(Transform transform, Grid grid, EnemyData enemyData)
         {
-            m_Speed = speed;
+            m_Speed = enemyData.Speed;
             m_Transform = transform;
             m_EnemyData = enemyData;
             m_UnderNode = Game.Player.Grid.GetNodeAtPoint(m_Transform.position);
@@ -28,19 +28,13 @@ namespace Enemy
 
         public void TickMovement()
         {
-
-            //mine code
-            if (m_EnemyData.IsDead)
-            {
-                return;
-            }
-
             if (m_TargetNode == null)
             {
                 return;
             }
 
             Vector3 target = m_TargetNode.Position;
+            target.y = m_Transform.position.y;
 
             Node currentUnderNode = Game.Player.Grid.GetNodeAtPoint(m_Transform.position);
             if (m_UnderNode != currentUnderNode)

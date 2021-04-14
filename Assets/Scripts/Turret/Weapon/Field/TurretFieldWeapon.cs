@@ -29,7 +29,7 @@ namespace Turret.Weapon.Field
             {
                 foreach (EnemyData data in node.EnemiesOnCell)
                 {
-                    if (data != null && !data.IsDead)
+                    if (data != null)
                     {
                         data.GetDamage(m_Damage * Time.deltaTime);
                     }

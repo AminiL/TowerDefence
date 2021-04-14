@@ -40,6 +40,7 @@ namespace Runtime
         {
             m_Controllers = new List<IController>
             {
+                new EnemyDeathController(),
                 new GridRaycastController(Game.Player.GridHolder),
                 new EnemySpawnController(Game.CurrentLevel.SpawnWavesAsset, Game.Player.Grid),
                 new TurretSpawnController(Game.Player.Grid, Game.Player.TurretMarket),

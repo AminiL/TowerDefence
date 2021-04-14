@@ -14,9 +14,17 @@ namespace Turret.Weapon.Projectile.Rocket
         [SerializeField]
         private RocketProjectile m_RocketProjectile;
 
+        [SerializeField]
+        private float m_Speed;
+        [SerializeField]
+        private float m_Damage;
+        [SerializeField]
+        private float m_DestructionRadius;
+
         public override IProjectile CreateProjectile(Vector3 origin, Vector3 originForward, EnemyData enemyData)
         {
             RocketProjectile created = Instantiate(m_RocketProjectile, origin, Quaternion.LookRotation(originForward, Vector3.up));
+            created.Init(m_Speed, m_Damage, m_DestructionRadius);
             created.SetChasingEnemy(enemyData);
             return created;
         }

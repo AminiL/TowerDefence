@@ -17,12 +17,16 @@ namespace Enemy
         private bool m_IsFlying;
         public bool IsFlying => m_IsFlying;
 
+        private float m_Speed;
+        public float Speed => m_Speed;
+
         public readonly EnemyAsset Asset;
 
         public EnemyData(EnemyAsset asset)
         {
             m_Health = asset.StartHealth;
-            m_IsFlying = asset.isFlyingEnemy;
+            m_IsFlying = asset.IsFlyingEnemy;
+            m_Speed = asset.Speed;
         }
 
         public void AttachView(EnemyView view)
@@ -42,12 +46,15 @@ namespace Enemy
 
         private void Die()
         {
+            if (m_IsDead)
+            {
+                return;
+            }
             Debug.Log("Die");
             m_IsDead = true;
+            m_View.AnimateDeath();
 
-            //mine code
             Game.Player.EnemyDied(this);
-            m_View.Die();
         }
     }
 }

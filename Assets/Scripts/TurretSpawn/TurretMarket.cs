@@ -11,6 +11,6 @@ namespace TurretSpawn
             m_Asset = asset;
         }
 
-        public TurretAsset ChosenTurret => m_Asset.TurretAssets[3];
+        public TurretAsset ChosenTurret => m_Asset.TurretAssets[4];
     }
 }

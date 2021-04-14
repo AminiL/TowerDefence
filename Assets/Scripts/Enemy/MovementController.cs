@@ -19,21 +19,8 @@ namespace Enemy
 
             foreach (EnemyData data in Game.Player.EnemyDatas)
             {
-                //mine code
-                if (data.IsDead)
-                {
-                    //enemyToDelete.Add(data);
-                    continue;
-                }
-
                 data.View.MovementAgent.TickMovement();
             }
-
-            //mine code
-            //foreach (EnemyData enemyData in enemyToDelete)
-            //{
-            //    Game.Player.EnemyDied(enemyData);
-            //}
         }
     }
 }

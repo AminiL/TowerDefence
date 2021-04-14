@@ -11,6 +11,9 @@ namespace Enemy
         public EnemyData Data => m_Data;
         public IMovementAgent MovementAgent => m_MovementAgent;
 
+        public Animator m_DeathAnimator;
+        private static readonly int DieAnimationIndex = Animator.StringToHash("Die");
+
         public void AttachData(EnemyData data)
         {
             m_Data = data;
@@ -22,19 +25,26 @@ namespace Enemy
             {
                 Vector3 finalPos = grid.GetTargetNode().Position;
                 finalPos.y = transform.position.y;
-                m_MovementAgent = new FlyingMovementAgent(3f, transform, finalPos, m_Data);
+                m_MovementAgent = new FlyingMovementAgent(transform, finalPos, m_Data);
             }
             else
             {
-                m_MovementAgent = new GridMovementAgent(3f, transform, grid, m_Data);
+                m_MovementAgent = new GridMovementAgent(transform, grid, m_Data);
             }
         }
 
+        public void AnimateDeath()
+        {
+            if (m_DeathAnimator)
+            {
+                m_DeathAnimator.SetTrigger(DieAnimationIndex);
+            }
+        }
 
         //mine code
         public void Die()
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 }
